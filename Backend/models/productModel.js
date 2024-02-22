@@ -34,6 +34,7 @@ var productSchema = new mongoose.Schema({
     quantity: {
         type: Number,
         required: true,
+        //select: false, // this line is for hiding this quantity attribute for the user
     },
     sold: {
         type: Number,
