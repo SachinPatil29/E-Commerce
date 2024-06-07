@@ -2,6 +2,9 @@ const validateMongodbId = require('../Utils/validateMongodbId');
 const { generateToken } = require('../config/jwtToken');
 const { generateRefreshToken } = require('../config/refreshToken');
 const User = require('../models/userModel');
+const Product = require('../models/productModel');
+const Cart = require('../models/cartModel');
+const Coupon = require('../models/couponModel');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('./emailCtrl');
@@ -47,6 +50,40 @@ const loginUser = asyncHandler(async (req, res) => {
             email: findUser?.email,
             mobile: findUser?.mobile,
             token: generateToken(findUser?._id)
+        });
+    }
+    else {
+        throw new Error('Bad Credential');
+    }
+})
+
+// Admin login
+const loginAdmin = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    // Check if user is exists or not
+    const findAdmin = await User.findOne({ email: email });
+    if(findAdmin.role !== "admin") throw new Error("Not authorised")
+    if (findAdmin && (await findAdmin.isPasswordMatched(password))) {  //Call isPassswordMatched function for comparing password with encrypted password in userModel
+        const refreshToken = await generateRefreshToken(findAdmin?._id); //RefreshTokens are used to maintain user sessions without requiring re-authentication
+        const updateUser = await User.findByIdAndUpdate(
+            findAdmin?._id,
+            {
+                refreshToken: refreshToken
+            },
+            {
+                new: true
+            })
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: 72 * 60 * 60 * 1000,
+        });
+        res.json({
+            _id: findAdmin?._id,
+            firstname: findAdmin?.firstname,
+            lastname: findAdmin?.lastname,
+            email: findAdmin?.email,
+            mobile: findAdmin?.mobile,
+            token: generateToken(findAdmin?._id)
         });
     }
     else {
@@ -106,6 +143,24 @@ const updateaUser = asyncHandler(async (req, res) => {
             lastname: req?.body?.lastname,
             email: req?.body?.email,
             mobile: req?.body?.mobile,
+        },
+            {
+                new: true
+            }
+        )
+        res.json(updatedUser);
+    } catch (error) {
+        throw new Error(error);
+    }
+})
+
+// Save user Address
+const saveAddress = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateMongodbId(_id);
+    try {
+        const updatedUser = await User.findByIdAndUpdate(_id, {
+            address: req?.body?.address,
         },
             {
                 new: true
@@ -247,6 +302,99 @@ const resetPassword = asyncHandler( async (req, res) => {
     res.json(user);
 })
   
+const getWishlist = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateMongodbId(_id);
+    try {
+        const finduser = await User.findById(_id).populate('wishlist');
+        res.json(finduser);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const userCart = asyncHandler(async (req, res) => {
+    const { cart } = req.body;
+    const { _id } = req.user;
+    validateMongodbId(_id);
+    try {
+        let products = [];
+        const user = await User.findById(_id);
+        // check if user already have product in cart
+        const alreadyExist = await Cart.findOne({ orderby: user._id });
+        if(alreadyExist){
+            alreadyExist.remove;
+        }
+        for(let i = 0; i < cart.length; i++){
+            let object = {};
+            object.product = cart[i]._id;
+            object.count = cart[i].count;
+            object.color = cart[i].color;
+            let getPrice = await Product.findById( cart[i]._id ).select("price").exec();
+            object.price = getPrice.price;
+            products.push(object);
+        }
+        let cartTotal = 0;
+        for(let i = 0; i < products.length; i++){
+            cartTotal += products[i].price * products[i].count;
+        }
+        const newCart = await new Cart({
+            products: products,
+            cartTotal: cartTotal,
+            orderby: user?._id
+        }).save();
+        res.json(newCart);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const getUserCart = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateMongodbId(_id);
+    try {
+        const cart = await Cart.findOne({ orderby: _id}).populate("products.product");
+        res.json(cart);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const emptyCart = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateMongodbId(_id);
+    try {
+        const user = await User.findOne({ _id });
+        const cart = await Cart.findOneAndDelete({ orderby: user._id })
+        res.json(cart);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const applyCoupon = asyncHandler(async (req, res) => {
+    const { coupon } = req.body;
+    const { _id } = req.user;
+    validateMongodbId(_id);
+    try {
+        const validCoupon = await Coupon.findOne({ name: coupon});
+        if(validCoupon === "null"){
+            throw new Error(" Invalid Coupon ");
+        }
+        const user = await User.findOne({ _id });
+        let { cartTotal } = await Cart.findOne({ orderby: user._id }).populate("products.product");
+        let totalAfterDiscount = (cartTotal - (cartTotal * validCoupon.discount) / 100).toFixed(2);
+        await Cart.findOne(
+            { orderby: user._id },
+            { totalAfterDiscount },
+            { new: true } 
+        )
+        res.json(totalAfterDiscount);
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
 module.exports = {
     createUser,
     loginUser,
@@ -261,4 +409,11 @@ module.exports = {
     updatePassword,
     forgotPasswordToken,
     resetPassword,
+    loginAdmin,
+    getWishlist,
+    saveAddress,
+    userCart,
+    getUserCart,
+    emptyCart,
+    applyCoupon,
 }

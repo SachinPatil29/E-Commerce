@@ -2,6 +2,10 @@ const Product = require("../models/productModel");
 const User = require("../models/userModel");
 const asyncHandler = require('express-async-handler');
 const slugify = require('slugify');
+const validateMongodbId = require("../Utils/validateMongodbId");
+const cloudinaryUploadImg = require("../Utils/cloudinary");
+const fs = require("fs");
+
 
 // Create a product
 const createProduct = asyncHandler(async (req, res) => {
@@ -20,6 +24,7 @@ const createProduct = asyncHandler(async (req, res) => {
 //Update a product
 const updateProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongodbId(id)
     try {
         if (req.body.title) {
             req.body.slug = slugify(req.body.title);
@@ -36,6 +41,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 //Delete a product
 const deleteProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongodbId(id)
     try {
         const deleteProduct = await Product.findByIdAndDelete(id);
         res.json(deleteProduct);
@@ -46,6 +52,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 //Get a product
 const getaProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongodbId(id)
     try {
         const getaProduct = await Product.findById(id);
         res.json({ getaProduct });
@@ -56,7 +63,6 @@ const getaProduct = asyncHandler(async (req, res) => {
 
 //Get all Product
 const getAllProducts = asyncHandler(async (req, res) => {
-    // console.log(req.query);
     try {
         //Filtering
         const queryObj = { ...req.query };
@@ -106,6 +112,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
 const addToWishlist = asyncHandler(async(req, res) => {
     const { _id } = req.user;
     const { prodId } = req.body;
+    validateMongodbId(prodId)
     try {
         const user = await User.findById(_id);
         const alreadyAdded = user.wishlist.find((id) => id.toString() === prodId);
@@ -177,6 +184,36 @@ const rating = asyncHandler(async(req, res) => {
     }
 })
 
+const uploadImages = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    validateMongodbId(id);
+    try {
+        const uploader = (path) => cloudinaryUploadImg(path, "images");
+        const urls = [];
+        const files = req.files;
+        for(const file of files){
+            const { path } = file
+            const newpath = await uploader(path);
+            urls.push(newpath);
+            await fs.unlinkSync(path)
+        }
+        const findProduct = await Product.findByIdAndUpdate(
+            id,
+            {
+                images: urls.map((file) => {
+                    return file;
+                }),
+            },
+            {
+                new: true
+            }  
+        );
+        res.json(findProduct);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
 module.exports = {
     createProduct,
     getaProduct,
@@ -185,4 +222,5 @@ module.exports = {
     deleteProduct,
     addToWishlist,
     rating,
+    uploadImages,
 }
