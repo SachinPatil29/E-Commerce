@@ -35,15 +35,15 @@ const Header = () => {
                     </div>
                     <div className="col-5">
                         <div className="input-group">
-                        <input 
-                           type="text" 
-                           className="form-control py-2" 
-                           placeholder="Search Product here..." 
-                           aria-label="Search Product here..." 
-                           aria-describedby="basic-addon2"  />
-                         <span class="input-group-text p-3" id="basic-addon2">
-                           <BsSearch className="fs-6" />
-                         </span>
+                            <input 
+                            type="text" 
+                            className="form-control py-2" 
+                            placeholder="Search Product here..." 
+                            aria-label="Search Product here..." 
+                            aria-describedby="basic-addon2"  />
+                            <span class="input-group-text p-3" id="basic-addon2">
+                                <BsSearch className="fs-6" />
+                            </span>
                         </div>
                     </div>
                     <div className="col-5">
@@ -88,7 +88,7 @@ const Header = () => {
         </header>
 
         <header className="header-bottom py-3">
-            <div className="container-xxl">
+            <div className="container-xxl"> 
                 <div className="row">
                     <div className="col-12">
                         <div className="menu-bottom d-flex align-items-center gap-30">
@@ -108,17 +108,17 @@ const Header = () => {
                                     </button>
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li>
-                                            <Link className="dropdown-item text-white" to="">
+                                            <Link className="dropdown-item text-white">
                                             Action
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link className="dropdown-item text-white" to="">
+                                            <Link className="dropdown-item text-white">
                                             Another Action
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link className="dropdown-item text-white" to="">
+                                            <Link className="dropdown-item text-white">
                                             Somethin else here
                                             </Link>
                                         </li>
@@ -138,6 +138,9 @@ const Header = () => {
                 </div>
             </div>
         </header>
+
+        
+
     </>
   )
 }
