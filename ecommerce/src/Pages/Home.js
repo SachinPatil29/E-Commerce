@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Marquee from "react-fast-marquee";
 import BlogCard from '../Components/BlogCard';
 import ProductCard from '../Components/ProductCard';
+import SpecialProductCard from '../Components/SpecialProductCard';
 
 const Home = () => {
   return (
@@ -199,6 +200,52 @@ const Home = () => {
           <div className="row">
             <div className="col-12">
               <h3 className="section-heading">Featured Collection</h3>
+            </div>
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+          </div>
+        </div>
+      </section>
+
+      {/* <section className="famous-wrapper py-5 home-wrapper-2">
+        <div className="container-xxl">
+          <div className="row">
+            <div className="col-3">
+              <div className="famous-card position-relative">
+                <img src="images/famous.jpg" alt="famous" />
+                <div className="famous-content position-absolute">
+                  <h5>Big Screen</h5>
+                  <h6>SmartWatch Series 7</h6>
+                  <p>From $399 or $16.62/mo. for 24 mo.*</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section> */}
+
+      <section className="special-wrapper py-5 home-wrapper-2">
+        <div className="container-xxl">
+          <div className="row">
+            <div className="col-12">
+              <h3 className="section-heading">Special Products</h3>
+            </div>
+          </div>
+          <div className="row">
+            <SpecialProductCard />
+            <SpecialProductCard />
+            <SpecialProductCard />
+          </div>
+        </div>
+      </section>
+
+      <section className="popular-wrapper py-5 home-wrapper-2">
+        <div className="container-xxl">
+          <div className="row">
+            <div className="col-12">
+              <h3 className="section-heading">Our Special Products</h3>
             </div>
             <ProductCard />
             <ProductCard />
