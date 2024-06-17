@@ -353,34 +353,100 @@ footer .input-group-text {
 
 /* Special Product Card Ends here */
 
-/* .famous-card .famous-content {
-  background-color: #000000;  
-  right: 10%;
-  width: 300px;
-}
 
 .famous-card .famous-content {
-  top: -60%;
-  left: 0%;
-  color: white;
+  top: 10%;
+  left: 5%;
+}
+
+.famous-card img {
+  border-radius: 10px;
 }
 
 .famous-content h5 {
   font-size: 13px;
   line-height: 20px;
   font-weight: 400;
-  color: white;
-  margin-bottom: 5px;
+  color: black;
+  margin-bottom: 7px;
 }
 .famous-content h6 {
   font-size: 24px;
   line-height: 38px;
   font-weight: 500;
-  color: white;
+  color: black;
 }
 .famous-content p {
   font-size: 16px;
   line-height: 24px;
   font-weight: 100;
-  color: white;
-} */
+  color: black;
+} 
+
+/* Our Store Starts*/
+
+.filter-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 15px 25px;
+}
+
+.filter-title {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--color-1c1c1b);
+  margin-bottom: 20px;
+} 
+
+.filter-card ul,
+.filter-card .form-check-label {
+  list-style-type: none;
+  font-size: 13px;
+  line-height: 30px;
+  color: var(--color-777777);
+  cursor: pointer;
+}
+
+.filter-card .form-check-input:focus {
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+.filter-card .form-check-input:checked {
+  background-color: var(--color-febd69);
+  border-color: var(--color-febd69);
+}
+
+.sub-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-1c1c1b);
+  margin-bottom: 15px;
+  margin-top: 20px;
+}
+
+.colors {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.colors li {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.random-products h5 { 
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.random-products:first-child {
+  border-bottom: 1px solid var(--color-ededed);
+}
+
+/* Our Store ends here*/

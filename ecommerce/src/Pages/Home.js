@@ -209,12 +209,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* <section className="famous-wrapper py-5 home-wrapper-2">
+      <section className="famous-wrapper py-5 home-wrapper-2">
         <div className="container-xxl">
           <div className="row">
             <div className="col-3">
               <div className="famous-card position-relative">
-                <img src="images/famous.jpg" alt="famous" />
+                <img src="images/famous.avif" className="img-fluid p-1" alt="famous" />
                 <div className="famous-content position-absolute">
                   <h5>Big Screen</h5>
                   <h6>SmartWatch Series 7</h6>
@@ -222,9 +222,42 @@ const Home = () => {
                 </div>
               </div>
             </div>
+            <div className="col-3">
+              <div className="famous-card position-relative">
+                {/* Put laptop image */}
+                <img src="images/famous.avif" className="img-fluid" alt="famous" />
+                <div className="famous-content position-absolute">
+                  <h5>Studio Display</h5>
+                  <h6>600 nits of Brightness.</h6>
+                  <p>27-inch 5K Retina Display </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-3">
+              <div className="famous-card position-relative">
+               {/* Put Smartphone image */}
+                <img src="images/famous.avif" className="img-fluid" alt="famous" />
+                <div className="famous-content position-absolute">
+                  <h5>Smartphones</h5>
+                  <h6>Smartphone 13 Pro</h6>
+                  <p>Now in Green. From $999.00 or $41.62/mo. for 24 mo. Footnote* </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-3">
+              <div className="famous-card position-relative">
+              {/* Put Speakers image */}
+                <img src="images/famous.avif" className="img-fluid" alt="famous" />
+                <div className="famous-content position-absolute">
+                  <h5>Home Speakers</h5>
+                  <h6>Room filling-sound </h6>
+                  <p>From $699.00 or $116.58/mo. for 12 mo. </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section> */}
+      </section>
 
       <section className="special-wrapper py-5 home-wrapper-2">
         <div className="container-xxl">
@@ -234,6 +267,7 @@ const Home = () => {
             </div>
           </div>
           <div className="row">
+            <SpecialProductCard />
             <SpecialProductCard />
             <SpecialProductCard />
             <SpecialProductCard />
