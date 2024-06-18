@@ -291,6 +291,7 @@ footer .input-group-text {
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
+  width: 100%;
 }
 
 
@@ -330,6 +331,11 @@ footer .input-group-text {
   color: var(--color-1c1c1b);
 }
 
+.product-card p.description {
+  font-size: 13px;
+  color: var(--color-777777);
+  margin-right: 20px;
+}
 .action-bar {
   top: 10%;
   right: -23px;
@@ -449,4 +455,54 @@ footer .input-group-text {
   border-bottom: 1px solid var(--color-ededed);
 }
 
+.filter-sort-grid {
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.grid img {
+  width: 22px;
+  height: 22px;
+  background-color: #f2f2f2;
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.gr-12 {
+  width: 100%;
+}
+.gr-6 {
+  width: 49%;
+}
+.gr-4 {
+  width: 32%;
+}
+.gr-3 {
+  width: 24%;
+}
+
+.gr-12 .product-card {
+  display: flex;
+  gap: 20px;
+}
+
+.gr-6 .product-image {
+  width: 65%;
+}
+
+.gr-6 .product-image img {
+  margin: auto;
+  display: block;
+}
+
+.gr-12 .product-card .product-image {
+  width: 270px;
+  height: auto;
+}
+
+.gr-12 .action-bar {
+  top: 17%;
+}
 /* Our Store ends here*/
