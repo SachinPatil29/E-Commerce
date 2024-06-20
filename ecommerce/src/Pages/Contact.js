@@ -8,8 +8,8 @@ import { BsInfoCircle } from "react-icons/bs";
 const Contact = () => {
   return (
     <>
-      <Meta title="Blogs" />
-      <BreadCrumb title="Blogs" />
+      <Meta title="Contact" />
+      <BreadCrumb title="Contact" />
       <div className="contact-wrapper py-5 home-wrapper-2">
         <div className="container-xxl">
           <div className="row">

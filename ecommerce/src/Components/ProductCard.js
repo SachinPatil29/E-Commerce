@@ -63,7 +63,7 @@ const ProductCard = (props) => {
                     </div>
                     <div className="product-image ">
                         <img src="images/watch.jpg" className="img-fluid" alt="Products" />
-                        <img src="images/watch-01.webp" className="h=25 w=25 p-5 img-fluid" alt="Products" />
+                        <img src="images/watch-01.webp" className="img-fluid h=25 w=25 p-5 " alt="Products" />
                     </div>
                     <div className="product-details">
                         <h6 className="brand">Havels</h6>
